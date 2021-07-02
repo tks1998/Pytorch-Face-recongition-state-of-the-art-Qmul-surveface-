@@ -37,7 +37,7 @@ from matplotlib import pyplot as plt
 torch.manual_seed(1234)
 ### timm module
 sys.path.append('./pytorch-image-models')
-from . import timm
+import timm
 
 # Utils
 from ultis import *
@@ -47,10 +47,10 @@ from adamp import AdamP
 
 class CFG:
     # path
-    path_train = "./data/train/"                           # folder train = train/class1, train/class2....
-    path_valid = "./data/valid/"                           # folder valid = valid/class1, valid/class2....
+    path_train = "../data/train/"                           # folder train = train/class1, train/class2....
+    path_valid = "../data/valid/"                           # folder valid = valid/class1, valid/class2....
     pretrain_model = "../input/no-agu/best_model (27).pt"  # pretrain name
-    orginal_pretrain_model = "./pretrain_model/efficientnet_b3_ra2-cf984f9c.pth" # pretrain efficienet
+    orginal_pretrain_model = "../pretrain_model/efficientnet_b3_ra2-cf984f9c.pth" # pretrain efficienet
 
     # dataloader
     input_size = 112
@@ -65,7 +65,7 @@ class CFG:
     train = True
 
     dropout = 0.5
-    metric = 'arcface' # AdaCos,
+    metric = 'adaptive_arcface' # 'arcface', 'cosface', 'adacos','adaptive_arcface'
     use_fc = True
     s = 30
     margin = 0.4
@@ -160,7 +160,7 @@ class Model(nn.Module):
 
     def forward(self, x, label):
         feature = self.extract_feat(x)
-        if self.metric in ('arcface', 'cosface', 'adacos'):
+        if self.metric in ('arcface', 'cosface', 'adacos','adaptive_arcface'):
             logits = self.final(feature, label)
         else:
             logits = self.final(feature)

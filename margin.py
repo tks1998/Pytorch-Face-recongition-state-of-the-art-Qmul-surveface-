@@ -157,7 +157,7 @@ class Arcface_adaptive_margin(nn.Module):
             cos(theta + m)
         """
 
-    def __init__(self, in_features, out_features, s=30.0, m=0.50, device='cuda', easy_margin=False, ls_eps=0.0, file_m="./auto_margin.dat"):
+    def __init__(self, in_features, out_features, s=30.0, m=0.50, device='cuda', easy_margin=False, ls_eps=0.0):
         super(Arcface_adaptive_margin, self).__init__()
         self.in_features = torch.tensor(in_features)
         self.out_features = torch.tensor(out_features)
@@ -166,7 +166,6 @@ class Arcface_adaptive_margin(nn.Module):
         self.m = Parameter(torch.tensor([[m]] * out_features, requires_grad=True, device=self.device,
                                         dtype=torch.double))  # automatic margin
         self.m_update = 0
-        self.file_m = file_m
         self.ls_eps = torch.tensor(ls_eps).type(dtype=torch.double)  # label smoothing
         self.weight = Parameter(torch.FloatTensor(out_features, in_features))
         nn.init.xavier_uniform_(self.weight)
@@ -174,10 +173,6 @@ class Arcface_adaptive_margin(nn.Module):
         self.torch_pi = torch.tensor(3.141592, dtype=torch.double, device=self.device)
 
     def forward(self, input, label):
-        if self.m_update % self.m_frequence == 0:
-            file_m = open(self.file_m, 'ab')
-            np.savetxt(file_m, self.m.detach().cpu().numpy().reshape(1, -1))
-            file_m.close()
         self.m_update += 1
         m = self.m[label]
         cos_m = torch.cos(m)
