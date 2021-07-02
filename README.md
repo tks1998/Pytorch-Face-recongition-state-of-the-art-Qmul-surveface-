@@ -20,3 +20,8 @@ We only config on class CFG in file train.py:
                                         / class2
                                         ....
       and some config for optimizer , loss, ...
+
+How to run repos?
+
+      - pip install -r requirements.txt
+      - python train.py
