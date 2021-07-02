@@ -121,8 +121,8 @@ class Model(nn.Module):
         super(Model, self).__init__()
         print('Building Model Backbone for {} model'.format(model_name))
 
-        self.backbone = timm.create_model(model_name, pretrained=False)
-        self.backbone.load_state_dict(torch.load(CFG.orginal_pretrain_model, map_location=CFG.device))
+        self.backbone = timm.create_model(model_name, pretrained=True)
+        # self.backbone.load_state_dict(torch.load(CFG.orginal_pretrain_model, map_location=CFG.device))
         final_in_features = self.backbone.classifier.in_features
 
         self.backbone.classifier = nn.Identity()
