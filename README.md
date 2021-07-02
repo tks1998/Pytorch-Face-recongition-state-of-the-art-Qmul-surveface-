@@ -3,7 +3,7 @@
 Implementation state of the art for face recognition algorithm.
 
 
-In my repos, I use timm module to create model ( efficienet, resnet ...)
+In my repos, I use timm module to quickly create model ( efficienet, resnet ...) and reference some notebook from kaggle.
 Implementation some SOTA algorithm for recognition: Arcface, adaptive arcface, adacos, additive margin,... 
 Optimizer: SAM optimizer
 
