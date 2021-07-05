@@ -32,7 +32,7 @@ class AverageMeter(object):
         self.count += n
         self.avg = self.sum / self.count
 
-def train_fn(dataloader, model, criterion, optimizer, device, scheduler, epoch):
+def train_fn(dataloader, model, criterion, optimizer, device, scheduler, epoch, lambda_=0.005):
     model.train()
     loss_score = AverageMeter()
 
@@ -49,9 +49,9 @@ def train_fn(dataloader, model, criterion, optimizer, device, scheduler, epoch):
         optimizer.zero_grad()
 
         output = model(images, targets)
-
         loss = criterion(output, targets)
-
+#         print("loss1: ",loss," loss2: ",torch.sum(torch.square(model.final.m)))
+        loss +=lambda_*torch.sum(torch.square(model.final.m))
         loss.backward()
         optimizer.step()
 
